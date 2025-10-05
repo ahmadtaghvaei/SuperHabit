@@ -47,7 +47,6 @@ fun AppNav() {
         BottomItem("more", "بیشتر", Icons.Filled.MoreHoriz)
     )
 
-    // حالت‌های ساده و ذخیره‌شونده داخل همین فایل
     var dailyNote by rememberSaveable { mutableStateOf("") }
     var activities by rememberSaveable { mutableStateOf(sampleActivities()) }
     var groups by rememberSaveable { mutableStateOf(listOf("اهداف", "سایر")) }
@@ -119,20 +118,20 @@ fun AppNav() {
             }
             composable("more") {
                 MoreScreen(
-                    onChangeColors = { /* در نسخه MVP فقط نمایشی */ },
-                    onSortTasks = { /* در نسخه MVP فقط نمایشی */ },
-                    onBackup = { /* در نسخه MVP فقط نمایشی */ },
-                    onRestore = { /* در نسخه MVP فقط نمایشی */ },
-                    onShare = { /* در نسخه MVP فقط نمایشی */ },
-                    onMessage = { /* در نسخه MVP فقط نمایشی */ },
+                    onChangeColors = { },
+                    onSortTasks = { },
+                    onBackup = { },
+                    onRestore = { },
+                    onShare = { },
+                    onMessage = { },
                     onResetAll = {
                         dailyNote = ""
                         activities = sampleActivities()
                         groups = listOf("اهداف", "سایر")
                         milestones = emptyList()
                     },
-                    onLanguage = { /* در نسخه MVP فقط نمایشی */ },
-                    onRateUs = { /* در نسخه MVP فقط نمایشی */ }
+                    onLanguage = { },
+                    onRateUs = { }
                 )
             }
         }
@@ -246,148 +245,3 @@ fun ActivitiesScreen(
         Spacer(Modifier.height(8.dp))
         Button(onClick = {
             if (newActivity.isNotBlank()) {
-                onAddActivity(newActivity.trim(), selectedGroup)
-                newActivity = ""
-            }
-        }) {
-            Icon(Icons.Filled.AddTask, contentDescription = null)
-            Spacer(Modifier.width(8.dp))
-            Text("افزودن فعالیت")
-        }
-
-        Spacer(Modifier.height(12.dp))
-        LazyColumn {
-            items(activities.filter { !it.isArchived }) { a ->
-                ListItem(
-                    leadingContent = { Icon(Icons.Filled.CheckCircle, contentDescription = null) },
-                    headlineContent = { Text(a.title) },
-                    supportingContent = { Text(a.group) },
-                    trailingContent = {
-                        Text(
-                            "آرشیو",
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.clickable { onArchive(a.id) }
-                        )
-                    }
-                )
-                Divider()
-            }
-        }
-    }
-}
-
-@Composable
-fun StatsScreen(activities: List<ActivityItem>) {
-    Column(Modifier.fillMaxSize().padding(16.dp)) {
-        ScreenTitle("آمار")
-        Card(Modifier.fillMaxWidth()) {
-            Column(Modifier.padding(16.dp)) {
-                Text("روزهای متوالی", fontWeight = FontWeight.Medium)
-                Spacer(Modifier.height(8.dp))
-                EmptyCard("به داده های بیشتری برای ترسیم این نمودار نیاز داریم. لطفا بعدا بهمون سر بزن! 👋")
-            }
-        }
-        Spacer(Modifier.height(12.dp))
-        Card(Modifier.fillMaxWidth()) {
-            Column(Modifier.padding(16.dp)) {
-                Text("رکوردهای من", fontWeight = FontWeight.Medium)
-                Spacer(Modifier.height(8.dp))
-                EmptyCard("به داده های بیشتری برای ترسیم این نمودار نیاز داریم. لطفا بعدا بهمون سر بزن! 👋")
-            }
-        }
-        Spacer(Modifier.height(16.dp))
-        Button(onClick = { /* دستاوردها - MVP */ }) {
-            Icon(Icons.Filled.EmojiEvents, contentDescription = null)
-            Spacer(Modifier.width(8.dp))
-            Text("دستاوردها")
-        }
-    }
-}
-
-@Composable
-fun CalendarScreen(milestones: List<Milestone>, onAddMilestone: (String) -> Unit) {
-    var title by remember { mutableStateOf("") }
-    Column(Modifier.fillMaxSize().padding(16.dp)) {
-        ScreenTitle("تقویم")
-        if (milestones.isEmpty()) {
-            EmptyCard("به داده های بیشتری برای ترسیم این نمودار نیاز داریم. لطفا بعدا بهمون سر بزن! 👋")
-        } else {
-            LazyColumn {
-                items(milestones) { m ->
-                    ListItem(
-                        leadingContent = { Icon(Icons.Filled.Flag, contentDescription = null) },
-                        headlineContent = { Text(m.title) },
-                        supportingContent = { Text("روز مهم") }
-                    )
-                    Divider()
-                }
-            }
-        }
-        Spacer(Modifier.height(12.dp))
-        OutlinedTextField(value = title, onValueChange = { title = it }, placeholder = { Text("عنوان روز مهم") }, modifier = Modifier.fillMaxWidth())
-        Spacer(Modifier.height(8.dp))
-        Button(onClick = {
-            if (title.isNotBlank()) {
-                onAddMilestone(title.trim())
-                title = ""
-            }
-        }) {
-            Icon(Icons.Filled.Add, contentDescription = null)
-            Spacer(Modifier.width(8.dp))
-            Text("روزهای مهم")
-        }
-    }
-}
-
-@Composable
-fun MoreScreen(
-    onChangeColors: () -> Unit,
-    onSortTasks: () -> Unit,
-    onBackup: () -> Unit,
-    onRestore: () -> Unit,
-    onShare: () -> Unit,
-    onMessage: () -> Unit,
-    onResetAll: () -> Unit,
-    onLanguage: () -> Unit,
-    onRateUs: () -> Unit
-) {
-    LazyColumn(Modifier.fillMaxSize()) {
-        item { MoreItem("یادداشت‌های روزانه", Icons.Filled.StickyNote2) { /* صفحه یادداشت‌ها - MVP */ } }
-        item { MoreItem("تغییر رنگ‌ها", Icons.Filled.Palette, onChangeColors) }
-        item { MoreItem("ترتیب‌بندی کارها", Icons.Filled.Sort, onSortTasks) }
-        item { MoreItem("پشتیبانی‌گیری و بازیابی", Icons.Filled.Backup, onBackup) }
-        item { MoreItem("به دوستانت معرفی کن", Icons.Filled.Share, onShare) }
-        item { MoreItem("به ما پیام بده", Icons.Filled.Email, onMessage) }
-        item { MoreItem("ریست کردن کل داده‌ها", Icons.Filled.DeleteForever, onResetAll) }
-        item { MoreItem("زبان برنامه", Icons.Filled.Language, onLanguage) }
-        item { MoreItem("به ما امتیاز بده", Icons.Filled.StarRate, onRateUs) }
-    }
-}
-
-@Composable
-fun MoreItem(title: String, icon: androidx.compose.ui.graphics.vector.ImageVector, onClick: () -> Unit) {
-    ListItem(
-        leadingContent = { Icon(icon, contentDescription = null) },
-        headlineContent = { Text(title) },
-        modifier = Modifier.clickable(onClick = onClick)
-    )
-    Divider()
-}
-
-@Composable
-fun EmptyCard(message: String) {
-    Box(
-        Modifier
-            .fillMaxWidth()
-            .background(Color(0xFFF7F7F7))
-            .padding(16.dp)
-    ) {
-        Text(message)
-    }
-}
-
-fun sampleActivities(): List<ActivityItem> = listOf(
-    ActivityItem(1, "مطالعه ۳۰ دقیقه", false, "اهداف"),
-    ActivityItem(2, "ورزش سبک", false, "اهداف"),
-    ActivityItem(3, "پیگیری سفارش‌ها", false, "سایر")
-)
