@@ -1,24 +1,6 @@
-plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-}
-
-android {
-    namespace "com.zicabin.superhabit"
-    compileSdk 34
-
-    defaultConfig {
-        applicationId "com.zicabin.superhabit"
-        minSdk 24
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
+buildscript {
+    dependencies {
+        classpath "com.android.tools.build:gradle:8.3.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22"
     }
-}
-
-dependencies {
-    implementation "androidx.core:core-ktx:1.13.1"
-    implementation "androidx.activity:activity-compose:1.9.0"
-    implementation "androidx.compose.ui:ui:1.6.8"
-    implementation "androidx.compose.material3:material3:1.3.0"
 }
