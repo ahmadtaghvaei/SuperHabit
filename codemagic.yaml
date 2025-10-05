@@ -4,7 +4,7 @@ workflows:
     max_build_duration: 10
     environment:
       android:
-        sdk: 34
+        version: 34
       java: 17
     scripts:
       - name: Build APK
