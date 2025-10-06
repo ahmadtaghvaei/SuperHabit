@@ -5,13 +5,13 @@ workflows:
     environment:
       vars:
         GRADLE_OPTS: -Xmx4096m
+      java: 17
     scripts:
       - name: Make gradlew executable
         script: |
           chmod +x gradlew
-          chmod +x gradle/wrapper/gradle-wrapper.jar
       - name: Build APK
         script: |
-          ./gradlew assembleDebug
+          ./gradlew assembleRelease
     artifacts:
-      - app/build/outputs/apk/debug/app-debug.apk
+      - app/build/outputs/apk/release/app-release.apk
