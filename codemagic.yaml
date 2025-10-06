@@ -6,6 +6,9 @@ workflows:
       vars:
         GRADLE_OPTS: -Xmx4096m
     scripts:
+      - name: Make gradlew executable
+        script: |
+          chmod +x gradlew
       - name: Build APK
         script: |
           ./gradlew assembleDebug
